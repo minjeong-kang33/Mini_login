@@ -6,13 +6,9 @@
 <meta charset="UTF-8">
 <title>메인</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./login.css">
-    
-<link href="mainCss.css" rel="stylesheet" type="text/css">
+	<link href="mainCss.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-
-
 
    <h1>
       <img src="heart.png" width="100" height="auto">

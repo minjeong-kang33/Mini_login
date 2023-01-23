@@ -35,7 +35,8 @@
 					<td></td>
 				</tr>
 			</table>
-			</div>
+			</div><br>
+			
 			<div class="submit">
 				<button type="submit" onclick="location.href = 'main.jsp' ">이전으로
 					돌아가기</button>
