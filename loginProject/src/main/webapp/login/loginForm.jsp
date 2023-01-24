@@ -16,7 +16,7 @@
 	<h1>
 		<img src="heart.png" width="100" height="auto">
 	</h1>
-	<form id="login" action="main.jsp">
+	<form id="login" action="loginPro.jsp">
 		<h3>log-in</h3>
 		<div class="textbox">
 			<ul>

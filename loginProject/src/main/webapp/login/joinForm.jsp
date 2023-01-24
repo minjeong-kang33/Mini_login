@@ -5,8 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
-	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-	<link href="joinCss.css" rel="stylesheet" type="text/css">
+   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+   <link href="joinCss.css" rel="stylesheet" type="text/css">
 </head>
 <body>
    <h1>
@@ -15,7 +15,7 @@
 
    <form id="join" action="joinPro.jsp" method="post">
       <fieldset>
-         <h3>join</h3>
+         <h3>Join</h3>
          <ul>
             <li><label for="userid"> 아이디 </label> <input type="text"
                id="id" name="id" placeholder="ID를 입력하세요" required autofocus>
@@ -26,21 +26,22 @@
             </li>
 
             <li><label for="name"> 이름 </label> <input type="text" id="name"
-               name="name" required></li>
+               name="name" required placeholder="이름을 입력하세요"></li>
 
             <li><label for="nickname"> 닉네임 </label> <input type="text"
-               id="nickname" name="nickname" required></li>
+               id="nickname" name="nickname" required placeholder="닉네임을 입력하세요"></li>
 
             <li><label for="birth"> 생일 </label> <input type="text"
-               id="birth" name="birth"></li>
+               id="birth" name="birth" placeholder="생년월일 8자리를 입력하세요"></li>
+               
             <li><label for="gender"> 성별 </label> <input type="radio"
                name="gender" id="남"> 남 <input type="radio" name="gender"
                id="여"> 여 <br></li>
 
             <li><label for="address"> 주소 </label> <input type="text"
-               id="address" name="address" readonly><br> <label
+               id="address" name="address" readonly placeholder="클릭하여 주소를 검색하세요"><br> <label
                for="address_detail">상세주소</label> <input type="text"
-               id="address_detail" name="address_detail"></li>
+               id="address_detail" name="address_detail" placeholder="상세주소를 입력하세요"></li>
 
          </ul>
          <div class="submit">
@@ -49,4 +50,17 @@
       </fieldset>
    </form>
 </body>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+window.onload = function(){
+    document.getElementById("address").addEventListener("click", function(){ 
+        new daum.Postcode({
+            oncomplete: function(data) { 
+                document.getElementById("address").value = data.address; 
+                document.querySelector("input[name=address_detail]").focus(); 
+            }
+        }).open();
+    });
+}
+</script>
 </html>
