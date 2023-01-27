@@ -1,34 +1,24 @@
+<%@page import="member.MemberDTO"%>
+<%@page import="member.MemberDAO"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>loginPro.jsp</title>
-</head>
-<body>
+
 <%
 request.setCharacterEncoding("utf-8");
 String id=request.getParameter("id");
 String pass=request.getParameter("pass");
 
-Class.forName("com.mysql.cj.jdbc.Driver");
-String dbUrl="jdbc:mysql://localhost:3306/loginProject";
-String dbUser="root";
-String dbPass="alswjd3462";
-Connection con = DriverManager.getConnection(dbUrl, dbUser, dbPass);
+//MemberDAO로 객체 생성
+MemberDAO dao = new MemberDAO();
+//MemberDAO의 usercheck()메서드를 사용하는 객체 dto 생성
+MemberDTO dto=dao.userCheck(id, pass);
 
-String sql = "select * from members where id=? and pass=?";
-PreparedStatement pstmt = con.prepareStatement(sql);
-pstmt.setString(1,id);
-pstmt.setString(2,pass);
-
-ResultSet rs = pstmt.executeQuery();
-if (rs.next()){
+//존재하는 계정일 경우 id값을 받아와 main.jsp에 연결
+if (dto != null){
 	session.setAttribute("id", id);
 	response.sendRedirect("main.jsp");
 }else{
@@ -40,5 +30,3 @@ if (rs.next()){
 	<%
 }
 	%>
-</body>
-</html>

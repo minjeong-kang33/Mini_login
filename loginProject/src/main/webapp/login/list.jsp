@@ -1,3 +1,6 @@
+<%@page import="member.MemberDTO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="member.MemberDAO"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.DriverManager"%>
@@ -23,26 +26,13 @@
 		<img src="heart.png" width="100" height="auto">
 	</h1>
 	<%
-	request.setCharacterEncoding("utf-8");
-	String id = request.getParameter("id");
-	String name = request.getParameter("name");
-	String nickname = request.getParameter("nickname");
-	Timestamp date = new Timestamp(System.currentTimeMillis());
-
-	Class.forName("com.mysql.cj.jdbc.Driver");
-	String dbUrl = "jdbc:mysql://localhost:3306/loginProject";
-	String dbUser = "root";
-	String dbPass = "alswjd3462";
-	Connection con = DriverManager.getConnection(dbUrl, dbUser, dbPass);
-
-	String sql = "select * from members";
-	PreparedStatement pstmt = con.prepareStatement(sql);
-	ResultSet rs = pstmt.executeQuery();
+	MemberDAO dao=new MemberDAO();
+	ArrayList<MemberDTO> memberList =dao.getMemberList();
 	%>
 
 	<form id="list" action="main.jsp" method="post">
 		<fieldset>
-			<h3>Members List</h3>
+			<h3>Members List</h3><br>
 			<div class="list">
 				<table>
 					<tr>
@@ -52,13 +42,15 @@
 						<th>가입일</th>
 					</tr>
 					<%
-					while (rs.next()) {
+					for(int i=0;i<memberList.size();i++){
+						//배열 한칸에 내용 가져오기 
+						MemberDTO dto=memberList.get(i);
 					%>
 					<tr>
-						<td><%=rs.getString("id")%></td>
-						<td><%=rs.getString("name")%></td>
-						<td><%=rs.getString("nickname")%></td>
-						<td><%=rs.getTimestamp("joindate")%></td>
+						<td><%=dto.getId()%></td>
+						<td><%=dto.getName()%></td>
+						<td><%=dto.getNickname()%></td>
+						<td><%=dto.getJoindate()%></td>
 					</tr>
 					<%
 					}

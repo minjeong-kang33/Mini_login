@@ -1,9 +1,11 @@
+<%@page import="member.MemberDTO"%>
+<%@page import="member.MemberDAO"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,47 +20,33 @@
 	<h1>
 		<img src="heart.png" width="100" height="auto">
 	</h1>
-<%
-String id = (String)session.getAttribute("id");
+	<%
+	String id = (String) session.getAttribute("id");
 
-Class.forName("com.mysql.cj.jdbc.Driver");
-String dbUrl="jdbc:mysql://localhost:3306/loginProject";
-String dbUser="root";
-String dbPass="alswjd3462";
-Connection con = DriverManager.getConnection(dbUrl, dbUser, dbPass);
-
-String sql="select * from members where id=?";
-PreparedStatement pstmt=con.prepareStatement(sql);
-pstmt.setString(1, id);
-
-ResultSet rs = pstmt.executeQuery();
-while(rs.next()){
-%>
+	MemberDAO dao = new MemberDAO();
+	MemberDTO dto = dao.getMember(id);
+	%>
 	<form id="delete" action="deletePro.jsp" method="post">
 		<fieldset>
 			<h3>Delete Account</h3>
 			<ul>
 				<li><label for="userid"> 아이디 </label> <input type="text"
-					id="id" name="id" readonly style="border: 0 solid black" value="<%= id%>"></li>
-
+					id="id" name="id" readonly style="border: 0 solid black"
+					value="<%=id%>"></li>
+					
 				<li><label for="pass"> 비밀번호 </label> <input type="password"
 					id="pass" name="pass" required placeholder="확인을 위해 비밀번호를 입력하세요"></li>
-
+				
 				<li><label for="name"> 이름 </label> <input type="text" id="name"
-					name="name" readonly style="border: 0 solid black" value="<%=rs.getString("name")%>"></li>
-
-
+					name="name" readonly style="border: 0 solid black"
+					value="<%=dto.getName()%>"></li>
 			</ul>
 			<div class="submit">
-				<button type="submit" onclick="location.href = 'main.jsp' ">이전으로
+				<button type="button" onclick="location.href = 'main.jsp' ">이전으로
 					돌아가기</button>
 				<button type="submit">탈퇴하기</button>
-
 			</div>
 		</fieldset>
 	</form>
-		<%
-}
-%>
 </body>
 </html>

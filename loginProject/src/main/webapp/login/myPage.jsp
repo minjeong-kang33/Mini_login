@@ -1,3 +1,5 @@
+<%@page import="member.MemberDTO"%>
+<%@page import="member.MemberDAO"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.DriverManager"%>
@@ -20,22 +22,15 @@
 <%
 String id = (String)session.getAttribute("id");
 
-Class.forName("com.mysql.cj.jdbc.Driver");
-String dbUrl="jdbc:mysql://localhost:3306/loginProject";
-String dbUser="root";
-String dbPass="alswjd3462";
-Connection con=DriverManager.getConnection(dbUrl, dbUser, dbPass);
+MemberDAO dao=new MemberDAO();
+MemberDTO dto=dao.getMember(id);
 
-String sql = "select * from members where id=?";
-PreparedStatement pstmt = con.prepareStatement(sql);
-pstmt.setString(1,id);
-
-ResultSet rs = pstmt.executeQuery();
-
-if(rs.next()){
+if (id == null) {
+	response.sendRedirect("login.jsp");
+}
 %>
 
-	<form id="mypage" action="mypagePro.jsp" method="post">
+	<form id="mypage" action="edit.jsp" method="post">
 		<fieldset>
 
 			<h3>My page</h3>
@@ -45,35 +40,35 @@ if(rs.next()){
 					style="border: 0 solid black"></li>
 
 				<li><label for="name"> 이름 </label> <input type="text" id="name"
-					name="name" value="<%=rs.getString("name") %>" readonly
+					name="name" value="<%=dto.getName() %>" readonly
 					style="border: 0 solid black"></li>
 
 				<li><label for="nickname"> 닉네임 </label> <input type="text"
 					id="nickname" name="nickname"
-					value="<%=rs.getString("nickname") %>" readonly
+					value="<%=dto.getNickname()%>" readonly
 					style="border: 0 solid black"></li>
 
 				<li><label for="birth"> 생일 </label> <input type="text"
-					id="birth" name="birth" value="<%=rs.getString("birth") %>"
+					id="birth" name="birth" value="<%=dto.getBirth() %>"
 					readonly style="border: 0 solid black"></li>
 
 				<li><label for="gender"> 성별 </label> <input type="text"
-					name="gender" readonly value="<%=rs.getString("gender") %>"
+					name="gender" readonly value="<%=dto.getGender() %>"
 					style="border: 0 solid black"></li>
 
 				<li><label for="address"> 주소 </label> <input type="text"
-					id="address" name="address" value="<%=rs.getString("address") %>"
+					id="address" name="address" value="<%=dto.getAddress() %>"
 					readonly style="border: 0 solid black"><br> <label
 					for="address_detail">상세주소</label> <input type="text"
 					id="address_detail" name="address_detail"
-					value="<%=rs.getString("address_detail") %>" readonly
+					value="<%=dto.getAddress_detail() %>" readonly
 					style="border: 0 solid black"></li>
 			</ul>
 
 			<div class="submit">
 				<button type="button" onclick="location.href = 'main.jsp' ">이전으로
 					돌아가기</button>
-				<button type="button" onclick="location.href = 'edit.jsp' ">내정보
+				<button type="submit">내 정보
 					수정</button>
 			</div>
 			<div class="delete">
@@ -82,8 +77,5 @@ if(rs.next()){
 		</fieldset>
 	</form>
 
-	<%
-}
-   %>
 </body>
 </html>

@@ -17,10 +17,12 @@
 	<%
 	String id = (String) session.getAttribute("id");
 
+	//로그인되지 않은 상태(id가 확인되지 않는 상태)인 경우 로그인 페이지로 이동
 	if (id == null) {
 		response.sendRedirect("login.jsp");
 	}
 	%>
+
 	<form id="main" action="myPage.jsp">
 		<div class="submit">
 			<h4>
@@ -31,13 +33,15 @@
 			<div class="button_div">
 				<button type="submit">마이페이지</button>
 				<br>
-				<button type="submit">로그아웃</button>
+				<button type="button" onclick="location.href = 'logout.jsp' ">로그아웃</button>
 				<br>
+				<!-- 일반회원에게는 마이페이지와 로그아웃 버튼까지만 보이게함  -->
+				<!-- 아이디가 admin인 관리자만 제일 아래에 회원목록 버튼이 보이도록함 -->
 				<%
 				if (id != null) {
 					if (id.equals("admin")) {
 				%>
-				<button type="submit" onclick="location.href = 'list.jsp' ">회원목록</button>
+				<button type="button" onclick="location.href = 'list.jsp' ">회원목록</button>
 				<%
 				}
 				}
